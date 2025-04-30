@@ -13,7 +13,10 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
-    {{#if android_bundle}}
+    {{#if android_bundle.jks_file}}
+    {{#if android_bundle.jks_password}}
+    {{#if android_bundle.key_alias}}
+    {{#if android_bundle.key_password}}
     signingConfigs {
         create("release") {
             storeFile = file("../../../../../../../{{ android_bundle.jks_file }}")
@@ -22,6 +25,9 @@ android {
             keyPassword = "{{ android_bundle.key_password }}"
         }
     }
+    {{/if}}
+    {{/if}}
+    {{/if}}
     {{/if}}
     buildTypes {
         getByName("debug") {
@@ -37,8 +43,14 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = true
-            {{#if android_bundle}}
+            {{#if android_bundle.jks_file}}
+            {{#if android_bundle.jks_password}}
+            {{#if android_bundle.key_alias}}
+            {{#if android_bundle.key_password}}
             signingConfig = signingConfigs.getByName("release")
+            {{/if}}
+            {{/if}}
+            {{/if}}
             {{/if}}
             proguardFiles(
                 *fileTree(".") { include("**/*.pro") }
@@ -59,4 +71,7 @@ dependencies {
     implementation("androidx.webkit:webkit:1.6.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
+    {{#each android_bundle.dependencies}}
+    implementation("{{ this }}")
+    {{/each}}
 }

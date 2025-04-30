@@ -189,10 +189,11 @@ impl Default for WebviewInstallMode {
 // Because all four fields must appear at the same time, there is no need for an Option
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub(crate) struct AndroidSettings {
-    pub(crate) jks_file: PathBuf,
-    pub(crate) jks_password: String,
-    pub(crate) key_alias: String,
-    pub(crate) key_password: String,
+    pub(crate) jks_file: Option<PathBuf>,
+    pub(crate) jks_password: Option<String>,
+    pub(crate) key_alias: Option<String>,
+    pub(crate) key_password: Option<String>,
+    pub(crate) dependencies: Option<Vec<String>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
